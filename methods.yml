@@ -1,0 +1,40 @@
+# Methods Description
+
+forecast:
+  timestep: "1 day"
+  time_horizon: "7 days"
+
+data_assimilation:
+  type_of_method: "ensemble_kalman_filter"
+  number_of_parameters_calibrated: 4
+  sources_of_training_data:
+    - description: "ACCP leaf N"
+      doi: "10.3334/ORNLDAAC/420"
+    - description: "FoRTE data"
+      url: "https://github.com/FoRTExperiment/fortedata"
+
+model:
+  type: "process-based"
+  name: "Discrete Lotka-Volterra model"
+  code_location: "https://github.com/ashiklom/forecast-standards"
+  citation: "Lotka 1965"
+  number_of_parameters: 3
+  covariates:
+    - type: "meteorology"
+      source:
+      - description: "CRUNCEP"
+        doi: "10.3334/ORNLDAAC/1220"
+    - type: "land cover"
+      source:
+        - description: "OGE land cover database"
+          url: https://github.com/ashiklom/ed4forte
+
+uncertainty:
+  - type:
+      - "initial condition"
+      - "parameter"
+      - "driver"
+  - propagation_method: "ensemble numeric"
+    number_of_ensembles: 10
+
+missing_value:
